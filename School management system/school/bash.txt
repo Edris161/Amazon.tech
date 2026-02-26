@@ -1,0 +1,12 @@
+# Core & Auth
+npm install axios lucide-react clsx tailwind-merge
+
+# UI Components (Shadcn UI approach is best for professional panels)
+npm install radix-ui/react-dialog radix-ui/react-dropdown-menu radix-ui/react-label
+
+# State Management & Forms
+npm install react-hook-form @hookform/resolvers zod
+npm install @tanstack/react-query 
+
+# Feedback & Date handling
+npm install sonner date-fns
