@@ -5,12 +5,12 @@ from .serializers import CompanySerializer, CompanyDetailSerializer
 
 
 class CompanyListView(generics.ListAPIView):
-    queryset = Company.objects.all().prefetch_related(
-        'products',
-        'certificates',
-        'media',
-        'timeline'
-    )
+    queryset = Company.objects.prefetch_related(
+    'products',
+    'certificates',
+    'media',
+    'timeline'
+).distinct()
     serializer_class = CompanySerializer
 
     # Enable filtering, search, ordering
@@ -29,11 +29,11 @@ class CompanyListView(generics.ListAPIView):
 
     # Search fields
     search_fields = [
-        'legal_name',
-        'description',
-        'main_markets',
-    ]
-
+    'legal_name',
+    'description',
+    'main_markets',
+    'products__name',   # 🔥 Search inside product name
+]
     # Ordering fields
     ordering_fields = [
         'created_at',

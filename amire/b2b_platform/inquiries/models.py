@@ -1,6 +1,7 @@
 from django.db import models
-from companies.models import Company
 import uuid
+from companies.models import Company
+from products.models import Product
 
 
 class Inquiry(models.Model):
@@ -12,11 +13,19 @@ class Inquiry(models.Model):
         related_name='inquiries'
     )
 
-    sender_name = models.CharField(max_length=150)
-    email = models.EmailField()
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE,
+        related_name='inquiries'
+    )
+
+    buyer_name = models.CharField(max_length=255)
+    buyer_email = models.EmailField()
+    buyer_phone = models.CharField(max_length=50, blank=True)
+
     message = models.TextField()
 
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Inquiry to {self.company.legal_name}"
+        return f"Inquiry for {self.product.name}"
