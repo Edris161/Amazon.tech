@@ -9,7 +9,7 @@ urlpatterns = [
     path('api/auth/', include('accounts.urls')),
     path('api/students/', include('students.urls')),
     path('api/teachers/', include('teachers.urls')),
-    path('api/academics/', include('academics.urls')),
+    # path('api/academics/', include('academics.urls')),  # Temporarily comment out
     path('api/attendance/', include('attendance.urls')),
     path('api/exams/', include('exams.urls')),
     path('api/finance/', include('finance.urls')),
