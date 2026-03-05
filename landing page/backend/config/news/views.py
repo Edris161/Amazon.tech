@@ -7,3 +7,7 @@ class NewsViewSet(ModelViewSet):
     serializer_class = NewsSerializer
     lookup_field = "slug"
     search_fields = ["title"]
+    ordering_fields = ["published_at"]
+    filterset_fields = ["published_at"]
+    search_fields = ["title"]
+    ordering_fields = ["published_at"]
