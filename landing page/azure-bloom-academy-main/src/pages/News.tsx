@@ -6,13 +6,17 @@ import SectionTitle from "@/components/SectionTitle";
 
 const NewsDetail = () => {
   const { slug } = useParams();
-  const [article, setArticle] = useState(null);
+  const [article, setArticle] = useState<any>(null);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/news/${slug}`)
+    fetch("http://localhost:8000/api/news/")
       .then((res) => res.json())
-      .then((data) => setArticle(data))
-      .catch((err) => console.log(err));
+      .then((data) => {
+        const results = data.results ? data.results : data;
+        const found = results.find((n: any) => n.slug === slug);
+        setArticle(found);
+      })
+      .catch((error) => console.error("Error fetching news:", error));
   }, [slug]);
 
   if (!article)
@@ -58,10 +62,6 @@ const NewsDetail = () => {
             <p className="text-muted-foreground leading-relaxed">
               {article.excerpt}
             </p>
-
-            <p className="text-muted-foreground leading-relaxed mt-4">
-              {article.content}
-            </p>
           </div>
         </GlassCard>
       </article>
@@ -73,10 +73,13 @@ const News = () => {
   const [newsItems, setNewsItems] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8000/news")
+    fetch("http://localhost:8000/api/news/")
       .then((res) => res.json())
-      .then((data) => setNewsItems(data))
-      .catch((err) => console.log(err));
+      .then((data) => {
+        const results = data.results ? data.results : data;
+        setNewsItems(results);
+      })
+      .catch((error) => console.error("Error fetching news:", error));
   }, []);
 
   return (
@@ -88,7 +91,7 @@ const News = () => {
         />
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {newsItems.map((news) => (
+          {newsItems.map((news: any) => (
             <Link key={news.slug} to={`/news/${news.slug}`}>
               <GlassCard className="overflow-hidden group h-full">
                 <div className="h-48 overflow-hidden">

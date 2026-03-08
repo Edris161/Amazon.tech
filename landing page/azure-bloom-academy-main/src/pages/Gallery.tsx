@@ -1,26 +1,29 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import GlassCard from "@/components/GlassCard";
 import SectionTitle from "@/components/SectionTitle";
 
 const Gallery = () => {
-  const [galleryImages, setGalleryImages] = useState([]);
+  const [images, setImages] = useState<any[]>([]);
   const [filter, setFilter] = useState("All");
-  const [lightbox, setLightbox] = useState(null);
+  const [lightbox, setLightbox] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/gallery")
+    fetch("http://localhost:8000/api/gallery/")
       .then((res) => res.json())
-      .then((data) => setGalleryImages(data))
-      .catch((err) => console.log(err));
+      .then((data) => {
+        const results = data.results ? data.results : data;
+        setImages(results);
+      })
+      .catch((err) => console.error("Gallery fetch error:", err));
   }, []);
 
-  const categories = ["All", ...new Set(galleryImages.map((img) => img.category))];
+  const categories = ["All", ...new Set(images.map((img) => img.category))];
 
   const filtered =
     filter === "All"
-      ? galleryImages
-      : galleryImages.filter((img) => img.category === filter);
+      ? images
+      : images.filter((img) => img.category === filter);
 
   return (
     <div className="min-h-screen pt-24">
@@ -49,16 +52,16 @@ const Gallery = () => {
 
         {/* Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filtered.map((img) => (
+          {filtered.map((img: any) => (
             <GlassCard
               key={img.id}
               className="overflow-hidden cursor-pointer group"
-              onClick={() => setLightbox(img.src)}
+              onClick={() => setLightbox(img.image)}
             >
               <div className="h-56 overflow-hidden">
                 <img
-                  src={img.src}
-                  alt={img.alt}
+                  src={img.image}
+                  alt={img.title}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
               </div>
@@ -67,7 +70,7 @@ const Gallery = () => {
                 <span className="text-xs font-medium text-muted-foreground">
                   {img.category}
                 </span>
-                <p className="text-sm font-medium mt-1">{img.alt}</p>
+                <p className="text-sm font-medium mt-1">{img.title}</p>
               </div>
             </GlassCard>
           ))}

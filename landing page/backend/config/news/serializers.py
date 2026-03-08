@@ -3,28 +3,45 @@ from .models import News
 
 
 class NewsCardSerializer(serializers.ModelSerializer):
-    image = serializers.SerializerMethodField()
+    image_url = serializers.SerializerMethodField()
 
     class Meta:
         model = News
-        fields = ["id", "title", "slug", "short_description", "image", "published_at"]
+        fields = [
+            "id",
+            "title",
+            "slug",
+            "short_description",
+            "image_url",
+            "published_at",
+        ]
 
-    def get_image(self, obj):
+    def get_image_url(self, obj):
         request = self.context.get("request")
-        if obj.image:
+        if obj.image and request:
             return request.build_absolute_uri(obj.image.url)
         return None
 
 
 class NewsSerializer(serializers.ModelSerializer):
-    image = serializers.SerializerMethodField()
+    image_url = serializers.SerializerMethodField()
 
     class Meta:
         model = News
-        fields = "__all__"
+        fields = [
+            "id",
+            "title",
+            "slug",
+            "short_description",
+            "content",
+            "image",
+            "image_url",
+            "published_at",
+        ]
+        read_only_fields = ["slug", "published_at"]
 
-    def get_image(self, obj):
+    def get_image_url(self, obj):
         request = self.context.get("request")
-        if obj.image:
+        if obj.image and request:
             return request.build_absolute_uri(obj.image.url)
         return None

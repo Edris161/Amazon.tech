@@ -66,7 +66,7 @@ const Index = () => (
         </div>
       </div>
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+      <div className="bottom-20 left-1/2 -translate-x-1/2 animate-bounce fixed">
         <div className="w-6 h-10 rounded-full border-2 border-primary-foreground/50 flex items-start justify-center p-1.5">
           <div className="w-1.5 h-2.5 bg-primary-foreground/70 rounded-full" />
         </div>
@@ -74,7 +74,7 @@ const Index = () => (
     </section>
 
     {/* Announcement Ticker */}
-    <section className="gradient-bg py-3 overflow-hidden">
+    <section className="gradient-bg py-3 overflow-hidden relative">
       <div className="flex animate-[slide_20s_linear_infinite] whitespace-nowrap gap-12 text-primary-foreground text-sm font-medium">
         {["📢 Admissions open for 2026-27 session", "🏆 Our students secured 15 gold medals at National Olympiad", "📅 Annual Sports Day on March 22nd", "🎨 Cultural Festival coming up in April", "📢 Admissions open for 2026-27 session", "🏆 Our students secured 15 gold medals at National Olympiad"].map((text, i) => (
           <span key={i} className="flex items-center gap-2">{text} <span className="opacity-50">•</span></span>
@@ -83,7 +83,7 @@ const Index = () => (
     </section>
 
     {/* Quick Stats Bar */}
-    <section className="container mx-auto px-4 -mt-8 relative z-20">
+    <section className="container mx-auto px-4 mt-10 relative z-20">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
           { num: "1500+", label: "Students Enrolled", icon: Users },

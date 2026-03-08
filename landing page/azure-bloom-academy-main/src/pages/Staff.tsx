@@ -8,8 +8,20 @@ const Staff = () => {
   useEffect(() => {
     fetch("http://localhost:8000/api/staff/")
       .then((res) => res.json())
-      .then((data) => setStaffMembers(data))
-      .catch((err) => console.log(err));
+      .then((data) => {
+        const results = data.results ? data.results : data;
+
+        const formatted = results.map((member: any) => ({
+          id: member.id,
+          name: member.name,
+          subject: member.position,
+          bio: member.bio,
+          image: member.photo_url,
+        }));
+
+        setStaffMembers(formatted);
+      })
+      .catch((error) => console.error("Error fetching staff:", error));
   }, []);
 
   return (
@@ -23,7 +35,7 @@ const Staff = () => {
 
       <section className="container mx-auto px-4 pb-20">
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {staffMembers.map((member) => (
+          {staffMembers.map((member: any) => (
             <GlassCard key={member.id} className="overflow-hidden group">
               <div className="h-56 overflow-hidden">
                 <img
@@ -35,9 +47,11 @@ const Staff = () => {
 
               <div className="p-5">
                 <h3 className="font-heading font-semibold">{member.name}</h3>
+
                 <span className="text-xs font-medium gradient-text">
                   {member.subject}
                 </span>
+
                 <p className="text-sm text-muted-foreground mt-2">
                   {member.bio}
                 </p>
