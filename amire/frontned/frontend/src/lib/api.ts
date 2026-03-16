@@ -6,7 +6,8 @@ export async function fetchAPI(endpoint: string) {
   });
 
   if (!res.ok) {
-    throw new Error("Failed to fetch data");
+    const text = await res.text();
+    throw new Error(`API Error: ${res.status} - ${text}`);
   }
 
   return res.json();
